@@ -37,9 +37,9 @@ export const GET_REPOSITORIES = gql`
   }
 `;
 
-client
-  .query({
-    query: GET_REPOSITORIES,
-    variables: { byLanguage: 'JavaScript' },
-  })
-  .then((result) => console.log('-result:', result));
+// client
+//   .query({
+//     query: GET_REPOSITORIES,
+//     variables: { byLanguage: 'JavaScript' },
+//   })
+//   .then((result) => console.log('-result:', result));
