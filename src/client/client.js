@@ -8,8 +8,6 @@ export const client = new ApolloClient({
   link: from([errorLink, networkLink]), // order matters
 });
 
-console.log('GITHUB_TOKEN', process.env.REACT_APP_GITHUB_TOKEN);
-
 export const GET_REPOSITORIES = gql`
   query GetRepositiories($byLanguage: String!) {
     search(type: REPOSITORY, query: $byLanguage, first: 10) {

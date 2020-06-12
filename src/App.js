@@ -1,15 +1,30 @@
 import React from 'react';
 import { ApolloProvider } from '@apollo/client';
+import { makeStyles } from '@material-ui/core/styles';
+import Divider from '@material-ui/core/Divider';
 import { client } from 'client/client';
-import { BlogList } from 'components/Blogs/BlogList';
+import { BlogGrid } from 'components/Blogs/BlogGrid';
+import { PostGrid } from 'components/Posts/PostGrid';
 
-const App = () => (
-  <ApolloProvider client={client}>
-    <div className="App">
-      <h2>My first Apollo app</h2>
-      <BlogList />
-    </div>
-  </ApolloProvider>
-);
+const App = () => {
+  const classes = useStyles();
+
+  return (
+    <ApolloProvider client={client}>
+      <main>
+        <h1>My Favourite Blogs</h1>
+        <BlogGrid />
+        <Divider className={classes.divider} />
+        <PostGrid />
+      </main>
+    </ApolloProvider>
+  );
+};
 
 export default App;
+
+const useStyles = makeStyles((theme) => ({
+  divider: {
+    margin: theme.spacing(4, 0),
+  },
+}));

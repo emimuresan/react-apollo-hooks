@@ -9,10 +9,50 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import paella from 'images/paella.jpg'; // Tell webpack this JS file uses this image
+import DeleteIcon from '@material-ui/icons/Delete';
+import image from 'images/paella.jpg';
+import { useMutation, gql } from '@apollo/client';
+import { deleteBlog } from 'graphql/mutations';
 
+export const BlogCard = ({ blogId, name, createdAt, text }) => {
+  const classes = useStyles();
+  const [deleteBlogFn] = useMutation(gql(deleteBlog));
+  const handleDelete = () => {
+    deleteBlogFn({
+      variables: { input: { id: blogId } },
+      refetchQueries: ['ListBlogs'],
+    });
+  };
+
+  return (
+    <Card className={classes.root}>
+      <CardHeader
+        avatar={
+          <Avatar aria-label="type" className={classes.avatar}>
+            B
+          </Avatar>
+        }
+        title={name}
+        subheader={new Date(createdAt).toDateString()}
+      />
+      <CardMedia className={classes.media} image={image} title={name} />
+      <CardContent>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {text}
+        </Typography>
+      </CardContent>
+      <CardActions disableSpacing>
+        <IconButton onClick={handleDelete} aria-label="delete">
+          <DeleteIcon />
+        </IconButton>
+      </CardActions>
+    </Card>
+  );
+};
+
+/**
+ * Styling
+ */
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
@@ -21,49 +61,7 @@ const useStyles = makeStyles((theme) => ({
     height: 0,
     paddingTop: '56.25%', // 16:9
   },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
   avatar: {
     backgroundColor: red[500],
   },
 }));
-
-export const RecipeCard = ({ name, createdAt, text }) => {
-  const classes = useStyles();
-
-  return (
-    <Card className={classes.root}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="meal" className={classes.avatar}>
-            M
-          </Avatar>
-        }
-        title={name}
-        subheader={new Date(createdAt).toDateString()}
-      />
-      <CardMedia className={classes.media} image={paella} title={name} />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {text}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-      </CardActions>
-    </Card>
-  );
-};

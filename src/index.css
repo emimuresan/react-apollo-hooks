@@ -8,3 +8,18 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+h1 {
+  font-style: normal;
+  font-weight: bold;
+  color: #f44336;
+  font-size: 6vmin;
+  text-align: center;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  margin-bottom: 85px;
+}
+
+main {
+  padding: 20px;
+}
